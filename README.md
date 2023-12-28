@@ -27,4 +27,3 @@ A top 10 of simple techniques to get your database humming.
 - Use union or AND instead of OR
 - Avoid wildcards at the start of strings
 - Join with inner join instead of where
--
