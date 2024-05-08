@@ -1,6 +1,8 @@
 -- Note optimising to avoid looping generally simplifies the SQL too
 -- That's especially true for this example
--- The first example takes a long time, so I ran it earlier, let's read the code then investigate :)
+-- The first example takes a long time, so I've capped it at 1000 rows. Read the code then investigate :)
+-- Even the 1000 rows takes the same time as the non looping. But it's 3 logical reads per row.
+-- The second solution does 1 logical read for every 4 rows. So it's doing 12 times less reads, and also doing it superefficiently.
 SET STATISTICS IO ON;
 
 DECLARE @TotalPosts INT
@@ -19,7 +21,8 @@ FROM dbo.Posts
 OPEN PostsCursor
 FETCH NEXT FROM PostsCursor INTO @CurrentPostId, @CurrentAnswerCount
 
-WHILE @@FETCH_STATUS = 0
+-- We'll cap this loop at 1000 to avoid SSMS crashing with the stats turned on.
+WHILE (@@FETCH_STATUS = 0) AND (@TotalPosts < 1000)
 BEGIN
     SET @TotalPosts = @TotalPosts + 1
     SET @TotalAnswerCount = @TotalAnswerCount + @CurrentAnswerCount
@@ -35,7 +38,7 @@ SELECT @TotalAnswerCount / @TotalPosts
 
 -- And here's the simplified version
 
-SELECT AVG(AnswerCount),MAX(AnswerCount) AS AverageAnswerCount
+SELECT Count(AnswerCount),AVG(AnswerCount),MAX(AnswerCount) AS AverageAnswerCount
 FROM dbo.Posts
 
 
