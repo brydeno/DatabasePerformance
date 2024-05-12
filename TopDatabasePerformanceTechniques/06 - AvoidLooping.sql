@@ -33,12 +33,12 @@ END
 CLOSE PostsCursor
 DEALLOCATE PostsCursor
 
-SELECT @TotalAnswerCount / @TotalPosts
+SELECT @TotalAnswerCount,@TotalPosts,@TotalAnswerCount / @TotalPosts
 
 
 -- And here's the simplified version
 
-SELECT Count(AnswerCount),AVG(AnswerCount),MAX(AnswerCount) AS AverageAnswerCount
+SELECT Count(AnswerCount),AVG(Convert(Decimal,AnswerCount)),MAX(AnswerCount) AS AverageAnswerCount
 FROM dbo.Posts
 
 

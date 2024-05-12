@@ -1,5 +1,19 @@
 USE [StackOverflow2013]
 GO
+IF EXISTS(SELECT [name] FROM sys.tables WHERE [name] like 'Votes1000') 
+BEGIN
+   DROP TABLE Votes1000;
+END;
+IF EXISTS(SELECT [name] FROM sys.tables WHERE [name] like 'VotesString') 
+BEGIN
+   DROP TABLE VotesString;
+END;
+DROP INDEX IF Exists [IX_DisplayName_Location] ON [dbo].[Users]
+DROP INDEX IF Exists [IX_DownVotes] ON [dbo].[Users]
+GO
+DROP INDEX IF Exists [idxReverseTitle] ON [dbo].[Posts]
+DROP INDEX IF Exists [idxTitle] ON [dbo].[Posts]
+GO
 CREATE TABLE [dbo].[Votes1000](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PostId] [int] NOT NULL,
@@ -25,19 +39,29 @@ SELECT TOP (1000)[PostId]
       ,[CreationDate]
   FROM [StackOverflow2013].[dbo].[Votes]
 GO
-DROP INDEX [IX_DisplayName_Location] ON [dbo].[Users]
-GO
 
+IF NOT EXISTS (
+  SELECT * 
+  FROM   sys.columns 
+  WHERE  object_id = OBJECT_ID(N'[dbo].[Posts]') 
+         AND name = 'ReverseTitle'
+)
 ALTER TABLE dbo.Posts Add ReverseTitle nvarchar(250)
 
 UPDATE dbo.Posts SET ReverseTitle = Reverse(Title)
 
 GO
-
+CREATE NONCLUSTERED INDEX [idxTitle] ON [dbo].[Posts]
+(
+	[Title] ASC
+)
+GO
 CREATE NONCLUSTERED INDEX [idxReverseTitle] ON [dbo].[Posts]
 (
 	[ReverseTitle] ASC
 )
+GO
+CREATE INDEX IX_DownVotes ON dbo.Users (DownVotes)
 GO
 CREATE TABLE [dbo].[VotesString](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
@@ -67,6 +91,17 @@ SELECT [PostId]
       ,[VoteTypeId]
       ,[CreationDate]
   FROM [StackOverflow2013].[dbo].[Votes]
+
+Create NONCLUSTERED INDEX [LOCDOWNV] ON [dbo].[users]
+( 
+Location ASC,
+DownVotes ASC
+)
+Create NONCLUSTERED INDEX [DOWNVLOC] ON [dbo].[users]
+( 
+DownVotes ASC,
+Location ASC
+)
 
 
 

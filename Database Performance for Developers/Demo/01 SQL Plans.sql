@@ -1,5 +1,4 @@
 -- Turn on Include Execution Plan to get back a query plan
-
 SET STATISTICS IO ON;
 
 SELECT
