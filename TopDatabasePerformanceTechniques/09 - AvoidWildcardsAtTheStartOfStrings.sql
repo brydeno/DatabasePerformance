@@ -8,13 +8,6 @@ SELECT Title FROM dbo.Posts WHERE Title LIKE '%statement'
 -- Create a column with the reverse of the string and index that.
 -- I've created a column called ReverseTitle to demonstrate
 
-
-
-
-
-
-
-
 SELECT reverse(ReverseTitle) FROM dbo.Posts WHERE ReverseTitle LIKE reverse('%statement')
 
 -- As we can see looking for the same data we almost 1000 times less work. 

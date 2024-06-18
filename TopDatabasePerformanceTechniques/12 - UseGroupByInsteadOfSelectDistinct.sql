@@ -4,7 +4,7 @@ SELECT DISTINCT OwnerUserId
 FROM dbo.Posts
 WHERE AnswerCount > 5
 
-SELECT OwnerUserId 
+SELECT OwnerUserId, Avg(AnswerCount) 
 FROM dbo.Posts
 WHERE AnswerCount > 5
 GROUP BY OwnerUserId
