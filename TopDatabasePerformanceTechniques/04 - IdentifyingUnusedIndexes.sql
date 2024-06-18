@@ -25,7 +25,7 @@ INNER JOIN
     sys.objects s ON us.object_id = s.object_id
 WHERE 
     s.type = 'U' -- Filter for user tables only
-    AND i.type_desc = 'NONCLUSTERED' -- Filter for non-clustered indexes
+--    AND i.type_desc = 'NONCLUSTERED' -- Filter for non-clustered indexes
 --    AND (us.user_seeks = 0 AND us.user_scans = 0) -- Filter for unused indexes
 ORDER BY 
     TableName, IndexName;
@@ -49,7 +49,7 @@ INNER JOIN
     sys.objects s ON us.object_id = s.object_id
 WHERE 
     s.type = 'U' -- Filter for user tables only
-    AND i.type_desc = 'NONCLUSTERED' -- Filter for non-clustered indexes
+--    AND i.type_desc = 'NONCLUSTERED' -- Filter for non-clustered indexes
 --    AND (us.user_seeks = 0 AND us.user_scans = 0) -- Filter for unused indexes
 ORDER BY 
     TableName, IndexName;

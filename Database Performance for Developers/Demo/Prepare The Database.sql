@@ -1,0 +1,5 @@
+DROP INDEX IF Exists [IX_DisplayName] ON [dbo].[Users]
+DROP INDEX IF Exists [IX_UserId_INCLUDES_CreationDate_Text] ON [dbo].[Comments]
+DROP INDEX IF Exists [IX_UserId_INCLUDES_CreationDate] ON [dbo].[Comments]
+DROP INDEX IF Exists [IX_DisplayName_Location] ON [dbo].[Users]
+DROP INDEX IF Exists [IX_Location_DisplayName] ON [dbo].[Users]
